@@ -14,7 +14,7 @@ def findLines(img_name):
 
     blur = cv.blur(edges,(5,5))
 
-    linesP = cv.HoughLinesP(blur, 10, np.pi/180, 8000, None, 1300, 1700)
+    linesP = cv.HoughLinesP(blur, 10, np.pi/180, 8430, None, 1355, 1700)
     if linesP is not None:
         for i in range(len(linesP)):
             l = linesP[i][0]
