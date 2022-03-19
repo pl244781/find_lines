@@ -10,11 +10,11 @@ def findLines(img_name):
     dim = (width, length)
 
     gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
-    edges = cv.Canny(gray, 250, 275)
+    edges = cv.Canny(gray, 225, 450, 3)
 
     blur = cv.blur(edges,(5,5))
 
-    linesP = cv.HoughLinesP(blur, 10, np.pi/180, 8430, None, 1355, 1700)
+    linesP = cv.HoughLinesP(blur, 10, np.pi/180, 8420, None, 1365, 1700)
     if linesP is not None:
         for i in range(len(linesP)):
             l = linesP[i][0]
@@ -24,7 +24,7 @@ def findLines(img_name):
 
     cv.imshow("output", img)
 
-    new_name =  img_name[:len(img_name) - 4] + "_output.jpg"
+    new_name = img_name[:len(img_name) - 4] + "_output.jpg"
     cv.imwrite(new_name, img)
 
     cv.waitKey(0)
@@ -34,4 +34,3 @@ def findLines(img_name):
 findLines("straight.jpg")
 findLines("left.jpg")
 findLines("right.jpg")
-
