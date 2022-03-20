@@ -10,17 +10,25 @@ def findLines(img_name):
     dim = (width, length)
 
     gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
-    edges = cv.Canny(gray, 225, 450, 3)
+    edges = cv.Canny(gray, 200, 450)
+    blur = cv.blur(edges, (15, 15))
 
-    blur = cv.blur(edges,(5,5))
-
-    linesP = cv.HoughLinesP(blur, 10, np.pi/180, 8420, None, 1365, 1700)
+    linesP = cv.HoughLinesP(blur, rho = 1, theta = np.pi/180, threshold = 550, minLineLength = 900, maxLineGap = 100)
     if linesP is not None:
         for i in range(len(linesP)):
             l = linesP[i][0]
-            cv.line(img, (l[0], l[1]), (l[2], l[3]), (0, 255, 0), 15, cv.LINE_AA)
+            cv.line(img, (l[0], l[1]), (l[2], l[3]), (0, 255, 0), 5, cv.LINE_AA)
+
+    '''l1 = linesP[0][0][0]
+    l2 = linesP[0][0][1]
+    l3 = linesP[0][0][2]
+    l4 = linesP[0][0][3]
+    cv.arrowedLine(img, (l1, l2), (l3, l4),(0, 0, 0), 5, cv.LINE_AA)
+    cv.arrowedLine(img, (l1+l2))'''
 
     img = cv.resize(img, dim, interpolation = cv.INTER_AREA)
+    blur = cv.resize(blur, dim, interpolation=cv.INTER_AREA)
+    edges = cv.resize(edges, dim, interpolation=cv.INTER_AREA)
 
     cv.imshow("output", img)
 
@@ -34,3 +42,4 @@ def findLines(img_name):
 findLines("straight.jpg")
 findLines("left.jpg")
 findLines("right.jpg")
+
